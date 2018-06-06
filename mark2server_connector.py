@@ -176,12 +176,17 @@ class Mark2ServerConnector(BaseConnector):
         self._headers['Content-Type'] = 'application/json'
         self._headers['X-MARK-II-API-KEY'] = self._key = config.get('API Key')
         self._cert = tempfile.NamedTemporaryFile(delete=False)
-        lines = config.get('Certificate').split()
-        cert = '\n'.join(['-----BEGIN CERTIFICATE-----'] + lines[2:-2] +
-                         ['-----END CERTIFICATE-----', ''])
-        self._cert.write(cert)
-        self._cert.close()
-        self._verify = self._cert.name if config.get('Verify') else False
+
+        if 'Certificate' in config and config.get('Verify'):
+            lines = config['Certificate'].split()
+            cert = '\n'.join(['-----BEGIN CERTIFICATE-----'] + lines[2:-2] +
+                             ['-----END CERTIFICATE-----', ''])
+            self._cert.write(cert)
+            self._cert.close()
+            self._verify = self._cert.name
+        else:
+            self._verify = False
+
         return phantom.APP_SUCCESS
 
     def finalize(self):
