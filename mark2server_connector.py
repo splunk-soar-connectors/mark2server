@@ -123,7 +123,7 @@ class Mark2ServerConnector(BaseConnector):
                     'net': { 'addr': '0.0.0.0', 'subnet': '0', 'port': '0' }
             } ]
         }
-        if param['period'] > 0:
+        if param.get('period', 0) > 0:
             data['period'] = param['period']
 
         ret_val, response = \
