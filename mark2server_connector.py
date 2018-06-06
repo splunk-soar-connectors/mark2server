@@ -98,7 +98,7 @@ class Mark2ServerConnector(BaseConnector):
             # the call to the 3rd party device or service failed,
             # action result should contain all the error details
             # so just return from here
-            self.save_progress("Test Connectivity Failed.")
+            self.save_progress("Test Connectivity Failed")
             return action_result.get_status()
 
         self.save_progress("Test Connectivity Passed")
